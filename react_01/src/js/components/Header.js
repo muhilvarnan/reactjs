@@ -4,8 +4,9 @@ import Title from "./Header/Title";
 export default class Header extends React.Component {
     
     render() {
+      console.log(this.props.title);
       return (
-        <header><Title /></header>
+        <header><Title title={this.props.title}/></header>
       );
   }
 }
