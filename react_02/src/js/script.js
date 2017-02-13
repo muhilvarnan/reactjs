@@ -12,7 +12,7 @@ const app = document.getElementById("app");
 ReactDOM.render(<Router history={hashHistory}>
 	 <Route path="/" component={Layout}>
 	 	<IndexRoute component={Feature}></IndexRoute>
-	 	<Route path="archive" component={Archive}></Route>
-	 	<Route path="setting" component={Settings}></Route>
+	 	<Route path="archive(/:article)" component={Archive}></Route>
+	 	<Route path="settings" component={Settings}></Route>
  	 </Route>
 	</Router>, app);	
