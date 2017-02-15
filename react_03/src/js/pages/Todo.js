@@ -1,26 +1,35 @@
 import React from "react";
 
-import TodoItem from "../components/Todo"
+import TodoItem from "../components/Todo";
+import TodoStore from "../stores/TodoStore";
+import * as TodoActions from "../actions/TodoActions";
 export default class Todo extends React.Component {
 
 	constructor() {
 		super();
+		this.getTodos = this.getTodos.bind(this);
 		this.state = {
-			todos: [
-				{
-					id:1,
-					text:"Go Shopping",
-					complete: false
-				},
-				{
-					id:2,
-					text:"Go Swimming",
-					complete: false
-				}
-			]
+			todos:TodoStore.getAll()
 		}
 	}
 
+	componentWillMount() {
+		TodoStore.on("change", this.getTodos);
+	}
+
+	componentWillUnMount(){
+		TodoStore.removeListener("change", this.getTodos);
+	}
+
+	getTodos() {
+		this.setState({
+				todos: TodoStore.getAll()
+		});
+	}
+
+	createTodo() {
+		TodoActions.createTodo(Date.now());
+	}
 	render() {
 		const {todos} = this.state;
 		const TodoComponents = todos.map((todo) => {
@@ -28,8 +37,10 @@ export default class Todo extends React.Component {
 		});
 		return (
 			<div>
-			  <h1>Todo</h1>
-			  <ul>{TodoComponents}</ul>
+				<button onClick={this.createTodo.bind(this)}>Create</button>
+				<input />
+			  	<h1>Todo</h1>
+			  	<ul>{TodoComponents}</ul>
 			</div>
 		);
 	}
