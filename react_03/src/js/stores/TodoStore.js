@@ -21,7 +21,7 @@ class TodoStore extends EventEmitter {
 
 	creatTodo(text) {
 		const id = Date.now();
-		this.todos.push(
+		this.todos.push(	
 		{
 			id,
 			text,
@@ -37,7 +37,7 @@ class TodoStore extends EventEmitter {
 	handleAction(action) {
 		switch(action.type) {
 			case "CREATE_TODO": {
-				this.creatTodo(action.text);
+				this.creatTodo(action.text);	
 			}
 		}
 		console.log("Todo store received an action", action);
