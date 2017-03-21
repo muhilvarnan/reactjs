@@ -1,9 +1,13 @@
 import React from "react";
+import NavigationBar from "./NavigationBar";
 
 export default class App extends React.Component {
   render() {
     return (
-      <h1>Helldfo from reactggsdgdg</h1>
+      <div className="container">
+        <NavigationBar />
+        {this.props.children}
+      </div>
     )
   }
 }

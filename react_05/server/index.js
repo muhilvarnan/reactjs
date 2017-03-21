@@ -20,4 +20,4 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
 })
 
-app.listen(3001, () => console.log("running on localhost:3000"))
+app.listen(1337, () => console.log("running on localhost:1337"))
