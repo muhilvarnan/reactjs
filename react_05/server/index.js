@@ -18,6 +18,6 @@ app.use(webpackHotMiddleware(complier));
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
-})
+});
 
 app.listen(1337, () => console.log("running on localhost:1337"))
