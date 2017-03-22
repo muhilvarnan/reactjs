@@ -17,10 +17,12 @@ export default class SignupForm extends React.Component {
         passwordConfirmation:'',
         timezone:'',
         errors: {},
-        isLoading:false
+        isLoading:false,
+        inValid: false
       }
       this.onChange  = this.onChange.bind(this);
       this.onSubmit = this.onSubmit.bind(this);
+      this.checkUserExists = this.checkUserExists.bind(this);
   }
 
   onChange(e) {
@@ -51,7 +53,24 @@ export default class SignupForm extends React.Component {
       );
     }
   }
-
+  checkUserExists (e) {
+    const field  = e.target.name;
+    const value  = e.target.value;
+    if(value !=='') {
+      this.props.isUserExists(value).then(res=> {
+          console.log(res);
+          let errors = this.state.errors;
+          let inValid;
+          if(res.data.user) {
+            errors[field] = "There is user with such " + field
+            inValid = true;
+          } else {
+            errors[field] = null
+          }
+          this.setState({errors, inValid})
+      })
+    }
+  }
   render() {
     const options = map(timezones, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -66,6 +85,7 @@ export default class SignupForm extends React.Component {
           error={errors.username}
           label="Username"
           onChange={this.onChange}
+          onBlur={this.checkUserExists}
           value={this.state.username}
           field="username"
         />
@@ -73,6 +93,7 @@ export default class SignupForm extends React.Component {
           error={errors.email}
           label="Email"
           onChange={this.onChange}
+          onBlur={this.checkUserExists}
           value={this.state.email}
           field="email"
           type="email"
@@ -106,7 +127,7 @@ export default class SignupForm extends React.Component {
         </div>
 
         <div className="form-group">
-          <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">Sign Up</button>
+          <button disabled={this.state.isLoading  || this.state.inValid } className="btn btn-primary btn-lg">Sign Up</button>
         </div>
       </form>
     )
@@ -115,7 +136,8 @@ export default class SignupForm extends React.Component {
 
 SignupForm.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
+  addFlashMessage: React.PropTypes.func.isRequired,
+  isUserExists: React.PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {
